@@ -1,0 +1,66 @@
+{%extends 'main.html'%} 
+{%load static%}
+{%block content%}
+<link rel="stylesheet" href="{%static 'css/productviewpage.scss'%}">
+<main>
+    <div class="section section-gray">
+        <div class="section-content">
+           
+            <div class="product-details">
+                <ul class="product-images">
+                    <li class="preview"><img src="{{product.image.url}}" alt=""></li>
+                    <!-- Don't show small pictures if there's only 1 -->
+                    <li>
+                        <a href="javascript:void(0)"><img src="http://static.zara.net/photos///2016/I/0/1/p/6756/201/800/2/w/1024/6756201800_2_6_1.jpg?ts=1472203990151" alt=""></a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)"><img src="http://static.zara.net/photos///2016/I/0/1/p/6756/201/800/2/w/1024/6756201800_1_1_1.jpg?ts=1472213925652" alt=""></a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)"><img src="http://static.zara.net/photos///2016/I/0/1/p/6756/201/802/2/w/1024/6756201802_2_5_1.jpg?ts=1472203996493" alt=""></a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)"><img src="http://static.zara.net/photos///2016/I/0/1/p/6756/201/802/2/w/1024/6756201802_1_1_1.jpg?ts=1472556621736" alt=""></a>
+                    </li>
+                </ul>
+                <h5>{{Product.name}}</h5>
+                <ul class="product-info">
+                   
+                    <li class="product-price"><span>$</span><span>{{product.price}}</span></li>
+                    <li class="product-attributes">
+                        <ul class="fields">
+                            <!-- <li>
+                                <div class="field-name">Color:</div>
+                                <label>
+                                    <input type="radio" name="color"> Gray
+                                </label>
+                                <label>
+                                    <input type="radio" name="color"> Black
+                                </label>
+                            </li>
+                            <li>
+                                <div class="field-name">Size:</div>
+                                <label>
+                                    <input type="radio" name="size"> Kids
+                                </label>
+                                <label>
+                                    <input type="radio" name="size"> Adults
+                                </label>
+                            </li>
+                        </ul>
+                    </li> -->
+                    <li class="product-addtocart">
+                        <button>Add To Cart</button>
+                    </li>
+                    <!-- <li class="product-description">
+                        <p>This string is randomly generated. The standard default text is designed to ramble about nothing. The standard default text is designed to ramble about nothing. This string is randomly  generated.</p>
+                        <p>Whoever evaluates your text cannot evaluate the way you write. Default text creates the illusion of real text. Your design looks awesome by the way. If it is not real text, they will focus on the design.</p>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+   
+</main>
+{%endblock content%}

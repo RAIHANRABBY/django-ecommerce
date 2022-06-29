@@ -1,0 +1,27 @@
+{%extends 'main.html'%}
+
+{%block content%}
+
+{%if login%}
+    <form action="" method="POST">
+        {%csrf_token%}
+        <label for="username"> Username:</label>
+        <input type="text" name="username">
+        <label for="password">Password:</label>
+        <input type="password" name="password">
+
+        <input type="submit">
+
+    </form>
+
+{%else%}
+    <form action="" method="POST">
+        {%csrf_token%}
+        {{form.as_p}}
+        <input type="submit" value="Create Account">
+
+
+    </form>
+
+{%endif%}
+{%endblock content%}
