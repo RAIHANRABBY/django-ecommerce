@@ -7,23 +7,37 @@ from .forms import UserReg
 from django.contrib.auth import login,logout,authenticate
 import json
 # Create your views here.
+
+
 def cartView(request):
     if request.user.is_authenticated:
         customer=request.user.customer
         order, created =Order.objects.get_or_create(customer=customer, complete = False)
         items=order.orderitem_set.all()
+        cart_total=order.get_total_item
     else:
         items=[]
         order={'get_total_price':0,'get_total_item':0}
-
+        cart_total=order['get_total_item']
     
-    content={'items':items,'order':order}
+    content={'items':items,'order':order,'cartItem':cart_total}
     return render(request,'store/cart.html',content)
 
 def storeView(request):
     product=Product.objects.all()
 
-    content={'products':product}
+    #getting the cart total on the top
+    if request.user.is_authenticated:
+        customer=request.user.customer
+        order, created =Order.objects.get_or_create(customer=customer, complete = False)
+        items=order.orderitem_set.all()
+        cart_total=order.get_total_item
+    else:
+        items=[]
+        order={'get_total_price':0,'get_total_item':0}
+        cart_total=order['get_total_item']
+
+    content={'products':product,'cartItem':cart_total}
     return render(request,'store/store.html',content)
 
 def checkoutView(request):
@@ -31,12 +45,14 @@ def checkoutView(request):
         customer=request.user.customer
         order, created =Order.objects.get_or_create(customer=customer, complete = False)
         items=order.orderitem_set.all()
+        cart_total=order.get_total_item
     else:
         items=[]
         order={'get_total_price':0,'get_total_item':0}
+        cart_total=order['get_total_item']
 
     
-    content={'items':items,'order':order}
+    content={'items':items,'order':order,'cartItem':cart_total}
     return render(request,'store/checkout.html',content)
 
 
@@ -101,9 +117,20 @@ def ViewProduct(request,pk):
     return render(request,'store/productviewpage.html',content)
 
 def updateItem(request):
-    data = json.loads(request.data)
-    productId=data['productId']
+    data = json.loads(request.body)
+    productId=data['ProductId']
     action = data['action']
     print(productId)
     print(action)
+    customer=request.user.customer
+    product=Product.objects.get(id=productId)
+    order,created=Order.objects.get_or_create(customer=customer,complete=False)
+    orderItem,created =OrderItem.objects.get_or_create(product=product,order=order) 
+    if action=='add':
+        orderItem.quantity += 1
+    elif action == 'remove':
+        orderItem.quantity -= 1
+    orderItem.save()
+    if orderItem.quantity <= 0:
+        orderItem.delete()
     return JsonResponse('Item was added', safe=False)

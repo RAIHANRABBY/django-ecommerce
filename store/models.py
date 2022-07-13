@@ -1,5 +1,4 @@
-from tkinter import Widget
-from turtle import width
+
 from django.db import models
 
 from django.contrib.auth.models import User
@@ -78,4 +77,4 @@ class OrderItem(models.Model):
 
 
     def __str__(self):
-        return str(self.order)
+        return self.product.name
