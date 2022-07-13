@@ -1,15 +1,23 @@
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import Product,Order,OrderItem
 from .forms import UserReg
 from django.contrib.auth import login,logout,authenticate
-
+import json
 # Create your views here.
-def cartView(request,):
-    item=OrderItem.objects.all()
+def cartView(request):
+    if request.user.is_authenticated:
+        customer=request.user.customer
+        order, created =Order.objects.get_or_create(customer=customer, complete = False)
+        items=order.orderitem_set.all()
+    else:
+        items=[]
+        order={'get_total_price':0,'get_total_item':0}
+
     
-    content={'items':item,}
+    content={'items':items,'order':order}
     return render(request,'store/cart.html',content)
 
 def storeView(request):
@@ -19,7 +27,16 @@ def storeView(request):
     return render(request,'store/store.html',content)
 
 def checkoutView(request):
-    content={}
+    if request.user.is_authenticated:
+        customer=request.user.customer
+        order, created =Order.objects.get_or_create(customer=customer, complete = False)
+        items=order.orderitem_set.all()
+    else:
+        items=[]
+        order={'get_total_price':0,'get_total_item':0}
+
+    
+    content={'items':items,'order':order}
     return render(request,'store/checkout.html',content)
 
 
@@ -82,3 +99,11 @@ def ViewProduct(request,pk):
     product =Product.objects.get(id=pk)
     content={'product':product}
     return render(request,'store/productviewpage.html',content)
+
+def updateItem(request):
+    data = json.loads(request.data)
+    productId=data['productId']
+    action = data['action']
+    print(productId)
+    print(action)
+    return JsonResponse('Item was added', safe=False)
