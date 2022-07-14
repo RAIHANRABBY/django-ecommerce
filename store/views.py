@@ -46,13 +46,16 @@ def checkoutView(request):
         order, created =Order.objects.get_or_create(customer=customer, complete = False)
         items=order.orderitem_set.all()
         cart_total=order.get_total_item
+        shipping=order.shipping
     else:
         items=[]
         order={'get_total_price':0,'get_total_item':0}
         cart_total=order['get_total_item']
+        shipping=False
+
 
     
-    content={'items':items,'order':order,'cartItem':cart_total}
+    content={'items':items,'order':order,'cartItem':cart_total,'shipping':shipping}
     return render(request,'store/checkout.html',content)
 
 
