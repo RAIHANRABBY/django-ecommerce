@@ -3,8 +3,9 @@
   <div class="col-lg-6">
     <div class="box-element" id="form-wrapper">
       <form id="form">
-       <!--                           user info                             -->
-		<div id="user-info">
+        <!--                           user info                             -->
+
+        <div id="user-info">
           <div class="form-field">
             <input
               required
@@ -24,6 +25,7 @@
             />
           </div>
         </div>
+
         <!-- ------------------------------------------------shipping form   -------------------------------------- -->
         <div id="shipping-info">
           <hr />
@@ -91,7 +93,7 @@
 
   <div class="col-lg-6">
     <div class="box-element">
-      <a class="btn btn-outline-dark" href="">&#x2190; Back to Cart</a>
+      <a class="btn btn-outline-dark" href="{%url 'cart'%}">&#x2190; Back to Cart</a>
       <hr />
       <h3>Order Summary</h3>
       <hr />
@@ -113,8 +115,19 @@
 
 <script type="text/javascript">
   var shipping = "{{shipping}}";
+  var User = '{{request.user}}'
   if (shipping == "False") {
     document.getElementById("shipping-info").innerHTML = "";
+  }
+
+  if (User != "AnonymousUser") {
+    document.getElementById("user-info").innerHTML = "";
+  }
+
+  if (shipping == "False" && User != "AnonymousUser") {
+    console.log("shipping=false and user is logged in");
+    document.getElementById("form-wrapper").classList.add("hidden");
+    document.getElementById("payment-info").classList.remove("hidden");
   }
 
   var form = document.getElementById("form");

@@ -62,6 +62,7 @@ def checkoutView(request):
 def loginView(request):
     logstate=True
     if request.user.is_authenticated:
+        
         return redirect('store')
 
     if request.method=="POST":
@@ -92,6 +93,7 @@ def logoutView(request):
 
 
 def registerView(request):
+    
     if request.user.is_authenticated:
         return redirect('home')
     
