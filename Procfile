@@ -1,1 +1,1 @@
-web: gunicorn boomshop.wsgi
+web: gunicorn ecommerce.wsgi
